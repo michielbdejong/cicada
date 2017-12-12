@@ -81,7 +81,7 @@ app
   .use(router.allowedMethods())
 
 async function main () {
-  console.log(credentials, process.env['$DYNO'])
+  console.log(credentials, 'https://' + process.env['DYNO'] + '.herokuapp.com/')
   await plugin.connect()
   await plugin.getInfo()
   console.log('plugin connected')
