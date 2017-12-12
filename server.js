@@ -20,7 +20,6 @@ const credentials = {
   server: 'wss://s.altnet.rippletest.net:51233',
   prefix: 'test.crypto.xrp.'
 }
-console.log({ credentials })
 
 const plugin = new Plugin(credentials)
 const secret = crypto.randomBytes(32)
@@ -42,37 +41,6 @@ router.get('/.well-known/webfinger', (ctx) => {
   }
   ctx.set('Access-Control-Allow-Origin', '*')
   ctx.body = body
-})
-
-// RPC
-router.post('/', async (ctx) => {
-  console.log('got rpc request')
-  const prefix = ctx.query.prefix
-  const method = ctx.query.method
-  const auth = ctx.request.headers.authorization
-
-  if (typeof prefix !== 'string' || typeof auth !== 'string') {
-    console.error('unauthorized rpc request', ctx.query, ctx.request.body)
-    return ctx.throw(401)
-  }
-  if (!method) {
-    return ctx.throw(400, 'method is required')
-  }
-
-  const [ , authToken ] = auth.match(/^Bearer (.+)$/) || []
-  if (authToken !== ilpCredentials.token) {
-    console.error('unauthorized rpc request', ctx.query, ctx.request.body)
-    return ctx.throw(401)
-  }
-
-  try {
-    ctx.body = await plugin.receive(method, ctx.request.body)
-    console.log('sending response', ctx.body)
-    ctx.status = 200
-  } catch (err) {
-    console.error('error processing rpc request', err)
-    return ctx.throw(422, err.message)
-  }
 })
 
 // SPSP
@@ -113,7 +81,7 @@ app
   .use(router.allowedMethods())
 
 async function main () {
-  console.log(ilpCredentials)
+  console.log(credentials)
   await plugin.connect()
   await plugin.getInfo()
   console.log('plugin connected')
