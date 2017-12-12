@@ -36,7 +36,7 @@ router.get('/.well-known/webfinger', (ctx) => {
       href: plugin.getInfo().prefix + 'client'
     }, {
       rel: 'https://interledger.org/rel/spsp/v2',
-      href: serverUrl
+      href: 'https://cicada-xrp-escrow.herokuapp.com'
     }]
   }
   ctx.set('Access-Control-Allow-Origin', '*')
@@ -81,7 +81,7 @@ app
   .use(router.allowedMethods())
 
 async function main () {
-  console.log(credentials)
+  console.log(credentials, process.env['$DYNO'])
   await plugin.connect()
   await plugin.getInfo()
   console.log('plugin connected')
