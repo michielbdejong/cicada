@@ -1,7 +1,7 @@
 {
   "name": "cicada",
   "version": "0.1.0",
-  "description": "Standalone ILP/SPSP Server",
+  "description": "Standalone ILP/SPSP Server for receiving on xrp escrow",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -18,7 +18,7 @@
   "license": "Apache-2.0",
   "dependencies": {
     "ilp": "^11.2.0",
-    "ilp-plugin-payment-channel-framework": "git+https://github.com/interledgerjs/ilp-plugin-payment-channel-framework.git",
+    "ilp-plugin-xrp-escrow": "^1.0.5",
     "koa": "^2.3.0",
     "koa-bodyparser": "^4.2.0",
     "koa-cors": "0.0.16",

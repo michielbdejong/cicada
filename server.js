@@ -7,26 +7,21 @@ const Router = require('koa-router')
 const Parser = require('koa-bodyparser')
 const Cors = require('koa-cors')
 const ILP = require('ilp')
-const Plugin = require('ilp-plugin-payment-channel-framework')
-const { parseIlpToken } = require('./ilpToken')
+const Plugin = require('ilp-plugin-xrp-escrow')
 
 const port = process.env.PORT || 3000
-const ilpToken = process.env.ILP_TOKEN
-const serverUrl = process.env.SERVER_URL
-if (!ilpToken) {
-  throw new Error('Cicadas don\'t live long, but while they do they require an ILP_TOKEN')
-}
-if (!serverUrl) {
-  throw new Error('Cicadas don\'t live long, but while they do they need a SERVER_URL so they know where they\'re living')
-}
-
-// TODO add webhook URL
 
 const app = new Koa()
 const router = new Router()
 
-const ilpCredentials = parseIlpToken(ilpToken)
-const plugin = new Plugin(ilpCredentials)
+const credentials = {
+  secret: process.env.XRP_SECRET,
+  account: process.env.XRP_ACCOUNT,
+  server: 'wss://s.altnet.rippletest.net:51233',
+  prefix: 'test.crypto.xrp.'
+}
+
+const plugin = new Plugin(credentials)
 const secret = crypto.randomBytes(32)
 
 // Webfinger
