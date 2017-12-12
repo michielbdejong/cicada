@@ -20,6 +20,7 @@ const credentials = {
   server: 'wss://s.altnet.rippletest.net:51233',
   prefix: 'test.crypto.xrp.'
 }
+console.log({ credentials })
 
 const plugin = new Plugin(credentials)
 const secret = crypto.randomBytes(32)
